@@ -1,3 +1,7 @@
+# =============================================================================
+#  Non linear regression code 
+#  1 feature and 100 rows
+# =============================================================================
 import numpy as np
 from sklearn.datasets import make_regression
 import matplotlib.pyplot as plt
@@ -8,7 +12,7 @@ import matplotlib.pyplot as plt
 
 np.random.seed()
 x,y = make_regression(n_samples=100,n_features=1,noise=10)
-y=y + abs(y/2)
+y=y + abs(y/2) # in order to make the relation non linear
 plt.scatter(x,y)
 
 # vérification des dimension du datset : 
@@ -41,7 +45,7 @@ def cost_function(x,y,theta):
     return 1/(2*m) * np.sum((model(X,theta)-y)**2)
 
 # =============================================================================
-# descente de gradient 
+# Descente du gradient 
 # =============================================================================
 
 def grad(X,y,theta):
