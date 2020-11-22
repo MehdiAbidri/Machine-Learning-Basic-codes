@@ -10,25 +10,23 @@ import matplotlib.pyplot as plt
 # Dataset 
 # =============================================================================
 
-np.random.seed()
+
 x,y = make_regression(n_samples=100,n_features=1,noise=10)
-y=y + abs(y/2) # in order to make the relation non linear
-plt.scatter(x,y)
-
-# vérification des dimension du datset : 
-print(x.shape)
+y=y + abs(y/2)+y**2 # in order to make the relation non linear
 y=y.reshape(y.shape[0],1)
-print(y.shape)    
+plt.scatter(x,y)
+  
 
-#Matrice X : 
-    
+# =============================================================================
+# Matrix X (feature)    
+# =============================================================================
 X=np.hstack((x,np.ones(x.shape)))
 X = np.hstack((x**2,X))
 
 theta = np.random.randn(3,1)
 
 # =============================================================================
-# Modèle
+# Model
 # =============================================================================
 
 def model (X, theta): 
@@ -38,14 +36,14 @@ plt.scatter(x,y)
 plt.plot(x,model(X,theta))
 
 # =============================================================================
-# Fonction cout 
+# FoCost function
 # =============================================================================
 def cost_function(x,y,theta):
     m = len(y)
     return 1/(2*m) * np.sum((model(X,theta)-y)**2)
 
 # =============================================================================
-# Descente du gradient 
+# Gradient descent 
 # =============================================================================
 
 def grad(X,y,theta):
@@ -60,20 +58,16 @@ def gradient_descent (x,y,theta,alpha,n_iteration):
     return theta , cost_history
 
 
-theta_final,cost_history =gradient_descent(x,y,theta,alpha=0.01,n_iteration=1000)
+# =============================================================================
+# Training
+# =============================================================================
+iteration = 1000
+lrate = 0.01
+theta_final,cost_history =gradient_descent(x,y,theta,lrate,iteration)
 
 prediction = model(X,theta_final)
-plt.scatter(x,y)
-plt.scatter(x,prediction,c='r')
-
 # =============================================================================
-# Courbe d'apprentissage 
-# =============================================================================
-
-plt.plot(range(1000),cost_history)
-
-# =============================================================================
-# Coefficient de determination 
+# Coefficient of determination 
 # =============================================================================
 
 def coef_det(y,pred):
@@ -81,6 +75,22 @@ def coef_det(y,pred):
     v=((y-y.mean())**2).sum()
     return 1 - u/v 
 
+# =============================================================================
+# Learning curve
+# =============================================================================
 
-print( coef_det(y,prediction))
+fig, ((ax1, ax2)) = plt.subplots(2, 1)
+fig.suptitle('Result of non linear regression example')
+ax1.scatter(x,y)
+ax1.scatter(x,prediction,c='r')
+ax2.plot(range(iteration),cost_history)
+ax1.set_title('Model trained vs dataset')
+ax2.set_title('Cost ')
+
+print( 'the coefficient of determination of this model is : ', coef_det(y,prediction))
+
+
+
+
+
 
