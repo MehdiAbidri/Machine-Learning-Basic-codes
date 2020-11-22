@@ -1,5 +1,6 @@
 # =============================================================================
-# Linear regression code (1 feature)
+# Linear regression code 
+# 1 feature and 100 rows
 # =============================================================================
 import numpy as np 
 import matplotlib.pyplot as plt 
