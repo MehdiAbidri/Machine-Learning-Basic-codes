@@ -41,7 +41,8 @@ model.score(X,y)               # evaluate it
 # =============================================================================
 
 def survival_func(model,sex,age,pclass,features_nbr):
-    """ takes the model trained, the sex,age and the class of the passenger
+    """ takes the model trained, the sex, the age and the class of the passenger
+        it takes as well the number of features
     """
     x=np.array([sex,age,pclass]).reshape(1,features_nbr)
     message_d = 'you would die if you were on the Titanic ' 
